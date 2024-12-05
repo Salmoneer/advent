@@ -1,18 +1,14 @@
-package main
+package day2
 
 import (
-    "os"
-    "bufio"
-    "fmt"
+    _ "embed"
     "log"
     "strings"
     "strconv"
 )
 
-func main() {
-    fmt.Printf("Part 1: %d\n", part1())
-    fmt.Printf("Part 2: %d\n", part2())
-}
+//go:embed data.txt
+var data string
 
 func abs(x int) int {
     if x < 0 {
@@ -23,19 +19,9 @@ func abs(x int) int {
 }
 
 func parse() [][]int {
-    f, err := os.Open("data.txt")
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer f.Close()
-
-    scanner := bufio.NewScanner(f)
-
     var reports [][]int
 
-    for scanner.Scan() {
-        line := scanner.Text()
-
+    for _, line := range strings.Split(strings.TrimSpace(data), "\n") {
         string_numbers := strings.Split(line, " ")
         var numbers []int
 
@@ -77,7 +63,7 @@ func none_wrong(report []int) bool {
     return valid
 }
 
-func part1() int {
+func Part1() int {
     reports := parse()
 
     s := 0
@@ -93,7 +79,7 @@ func part1() int {
     return s
 }
 
-func part2() int {
+func Part2() int {
     reports := parse()
 
     s := 0

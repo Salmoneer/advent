@@ -1,34 +1,21 @@
 package day1
 
 import (
-    "os"
-    "bufio"
-    "fmt"
+    _ "embed"
     "log"
     "strings"
     "strconv"
     "sort"
 )
 
-func main() {
-    fmt.Printf("Part 1: %d\n", part1())
-    fmt.Printf("Part 2: %d\n", part2())
-}
+//go:embed data.txt
+var data string
 
 func parse() ([]int, []int) {
-    f, err := os.Open("data.txt")
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer f.Close()
-
-    scanner := bufio.NewScanner(f)
-
     var left_list []int
     var right_list []int
 
-    for scanner.Scan() {
-        line := scanner.Text()
+    for _, line := range strings.Split(strings.TrimSpace(data), "\n") {
         nums := strings.SplitN(line, "   ", 2)
 
         left_num, err := strconv.Atoi(nums[0])
@@ -48,7 +35,7 @@ func parse() ([]int, []int) {
     return left_list, right_list
 }
 
-func part1() int {
+func Part1() int {
     left_list, right_list := parse()
 
     sort.Slice(left_list, func(i, j int) bool { return left_list[i] < left_list[j] })
@@ -68,7 +55,7 @@ func part1() int {
     return s
 }
 
-func part2() int {
+func Part2() int {
     left_list, right_list := parse()
 
     right_freqs := make(map[int]int)
