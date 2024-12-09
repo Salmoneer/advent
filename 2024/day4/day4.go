@@ -9,9 +9,9 @@ import (
 //go:embed data.txt
 var data string
 
-type Grid struct{
-    data []uint8
-    width int
+type Grid struct {
+    data   []uint8
+    width  int
     height int
 }
 
@@ -43,12 +43,13 @@ func Part1() int {
     for start_x := 0; start_x < grid.width; start_x++ {
         for start_y := 0; start_y < grid.height; start_y++ {
             for dx := -1; dx <= 1; dx++ {
-                delta: for dy := -1; dy <= 1; dy++ {
+            delta:
+                for dy := -1; dy <= 1; dy++ {
                     for i := 0; i < 4; i++ {
-                        x := start_x + i * dx
-                        y := start_y + i * dy
+                        x := start_x + i*dx
+                        y := start_y + i*dy
 
-                        if x < 0 || x >= grid.width || y < 0 || y >= grid.height || grid.data[grid.width * y + x] != "XMAS"[i] {
+                        if x < 0 || x >= grid.width || y < 0 || y >= grid.height || grid.data[grid.width*y+x] != "XMAS"[i] {
                             continue delta
                         }
                     }
@@ -67,17 +68,27 @@ func Part2() int {
 
     s := 0
 
-    for start_x := 0; start_x < grid.width - 2; start_x++ {
-        for start_y := 0; start_y < grid.height - 2; start_y++ {
-            backslash := []uint8{}
-            forwardslash := []uint8{}
+    for start_x := 0; start_x < grid.width-2; start_x++ {
+        for start_y := 0; start_y < grid.height-2; start_y++ {
+            xs := []int{start_x, start_x + 1, start_x + 2}
+            ys := []int{start_y, start_y + 1, start_y + 2}
 
-            for i := 0; i < 3; i++ {
-                backslash = append(backslash, grid.data[(start_y + i) * grid.width + (start_x + i)])
-                forwardslash = append(forwardslash, grid.data[(start_y + 2 - i) * grid.width + (start_x + i)])
+            // grid indices in the following pattern:
+            // 0.4
+            // .1.
+            // 3.2
+
+            indices := []int{ys[0]*grid.width + xs[0], ys[1]*grid.width + xs[1], ys[2]*grid.width + xs[2], ys[2]*grid.width + xs[0], ys[0]*grid.width + xs[2]}
+
+            // same indexing as above, but for characters instead of indices
+
+            chars := []uint8{}
+
+            for _, index := range indices {
+                chars = append(chars, grid.data[index])
             }
 
-            if (string(backslash) == "MAS" || string(backslash) == "SAM") && (string(forwardslash) == "MAS" || string(forwardslash) == "SAM") {
+            if (chars[0] == 'M' || chars[0] == 'S') && chars[1] == 'A' && (chars[2] == 'S' || chars[2] == 'M') && chars[0] != chars[2] && (chars[3] == 'M' || chars[3] == 'S') && (chars[4] == 'S' || chars[4] == 'M') && chars[3] != chars[4] {
                 s++
             }
         }
