@@ -13,7 +13,7 @@ import (
     "2024/day2"
     "2024/day3"
     "2024/day4"
-    // "2024/day5"
+    "2024/day5"
     // "2024/day6"
     // "2024/day7"
     // "2024/day8"
@@ -135,8 +135,8 @@ func main() {
         day3.Part2,
         day4.Part1,
         day4.Part2,
-        // day5.Part1,
-        // day5.Part2,
+        day5.Part1,
+        day5.Part2,
         // day6.Part1,
         // day6.Part2,
         // day7.Part1,
